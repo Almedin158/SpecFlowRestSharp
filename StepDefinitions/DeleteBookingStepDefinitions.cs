@@ -4,6 +4,7 @@ using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
 using SpecFlowRestSharp.Utility;
+using SpecFlowRestSharp.Configuration;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {
@@ -27,20 +28,23 @@ namespace SpecFlowRestSharp.StepDefinitions
                 username = "admin",
                 password = "password123"
             };
+
             var request = new PostRequestBuilder()
                 .WithUrl(url)
             .WithHeaders(headers)
                 .WithJsonBody(JsonConvert.SerializeObject(body))
                 .Build();
 
+            var _curl = CurlConverter.ConvertToCurl(request);
+
             try
             {
-                _response = client.GetClient()
+                _response = _client.GetClient()
                     .Execute(request);
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error executing the request: {ex.Message}");
+                throw new Exception($"Error executing the request: {ex.Message}\n{_curl}");
             }
 
             try
@@ -50,7 +54,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             }
             catch
             {
-                throw new Exception($"Response body is not availabe, status message: {_response.Content}");
+                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
             }
 
             
@@ -78,15 +82,18 @@ namespace SpecFlowRestSharp.StepDefinitions
                 },
                 additionalneeds = "Dorucak"
             };
+
             var request = new PostRequestBuilder()
                 .WithUrl(url)
                 .WithHeaders(headers)
                 .WithJsonBody(JsonConvert.SerializeObject(body))
                 .Build();
 
+            var _curl = CurlConverter.ConvertToCurl(request);
+
             try
             {
-                _response = client.GetClient()
+                _response = _client.GetClient()
                     .Execute(request);
             }
             catch (Exception ex)
@@ -101,7 +108,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             }
             catch 
             {
-                throw new Exception($"Response body is not availabe, status message: {_response.Content}");
+                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
             }
         }
 
@@ -125,14 +132,16 @@ namespace SpecFlowRestSharp.StepDefinitions
             .WithUrlSegments(urlSegments)
                 .Build();
 
+            var _curl = CurlConverter.ConvertToCurl(request);
+
             try
             {
-                _response = client.GetClient()
+                _response = _client.GetClient()
                     .Execute(request);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception($"Error executing the request: {ex.Message}");
+                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
             }
         }
 

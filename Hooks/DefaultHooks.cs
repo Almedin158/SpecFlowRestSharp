@@ -1,5 +1,6 @@
 ﻿using SpecFlowRestSharp.Clients;
 using SpecFlowRestSharp.Configuration;
+using System.Security.Policy;
 
 namespace SpecFlowRestSharp.Hooks
 {
@@ -8,18 +9,18 @@ namespace SpecFlowRestSharp.Hooks
     public class DefaultHooks
     {
         // For additional details on SpecFlow hooks see http://go.specflow.org/doc-hooks
-        public IClient client;
+        protected IClient _client;
 
         [BeforeStep]
         public void BeforeStep()
         {
-            client = new DefaultClient();
+            _client = new DefaultClient();
         }
 
         [AfterStep]
         public void AfterStep()
         {
-            client.Dispose();
+            _client.Dispose();
         }
     }
 }
