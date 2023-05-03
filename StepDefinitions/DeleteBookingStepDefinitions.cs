@@ -10,9 +10,9 @@ namespace SpecFlowRestSharp.StepDefinitions
     [Binding]
     public class DeleteBookingStepDefinitions:DefaultHooks
     {
-        RestResponse response;
-        string token;
-        string bookingId;
+        private RestResponse _response;
+        private string _token;
+        private string _bookingId;
 
         [Given(@"The user is authenticated")]
         public void GivenTheUserIsAuthenticated()
@@ -32,11 +32,28 @@ namespace SpecFlowRestSharp.StepDefinitions
             .WithHeaders(headers)
                 .WithJsonBody(JsonConvert.SerializeObject(body))
                 .Build();
-            response = client.GetClient().Execute(request);
 
-            var jsonObj = DynamicConverter.ConvertToJObject(response.Content);
+            try
+            {
+                _response = client.GetClient()
+                    .Execute(request);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error executing the request: {ex.Message}");
+            }
 
-            token = jsonObj.token;
+            try
+            {
+                var jsonObj = DynamicConverter.ConvertToJObject(_response.Content);
+                _token = jsonObj.token;
+            }
+            catch
+            {
+                throw new Exception($"Response body is not availabe, status message: {_response.Content}");
+            }
+
+            
         }
 
         [When(@"The user creates a booking")]
@@ -66,11 +83,26 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithHeaders(headers)
                 .WithJsonBody(JsonConvert.SerializeObject(body))
                 .Build();
-            response = client.GetClient().Execute(request);
 
-            var jsonObj = DynamicConverter.ConvertToJObject(response.Content);
+            try
+            {
+                _response = client.GetClient()
+                    .Execute(request);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error executing the request: {ex.Message}");
+            }
 
-            bookingId = jsonObj.bookingid;
+            try
+            {
+                var jsonObj = DynamicConverter.ConvertToJObject(_response.Content);
+                _bookingId = jsonObj.bookingid;
+            }
+            catch 
+            {
+                throw new Exception($"Response body is not availabe, status message: {_response.Content}");
+            }
         }
 
         [When(@"The user performs a delete booking request")]
@@ -80,11 +112,11 @@ namespace SpecFlowRestSharp.StepDefinitions
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" },
-                {"Cookie", "token="+token }
+                {"Cookie", "token="+_token }
             };
             var urlSegments = new Dictionary<string, string>()
             {
-                {"id", bookingId}
+                {"id", _bookingId}
             };
 
             var request = new DeleteRequestBuilder()
@@ -92,14 +124,28 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithHeaders(headers)
             .WithUrlSegments(urlSegments)
                 .Build();
-            response = client.GetClient()
-                .Execute(request);
+
+            try
+            {
+                _response = client.GetClient()
+                    .Execute(request);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error executing the request: {ex.Message}");
+            }
         }
 
         [Then(@"The booking should be deleted")]
         public void ThenTheBookingShouldBeDeleted()
         {
-            Assert.AreEqual(201, (int)response.StatusCode);
+            Assert.Multiple(() =>
+            {
+                Assert.AreEqual(201, (int)_response.StatusCode);
+                Assert.AreEqual(202, (int)_response.StatusCode);
+                Assert.AreEqual(400, (int)_response.StatusCode);
+                Assert.AreEqual(500, (int)_response.StatusCode);
+            });
         }
     }
 }
