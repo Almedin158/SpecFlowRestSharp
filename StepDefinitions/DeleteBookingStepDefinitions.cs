@@ -2,15 +2,14 @@ using Newtonsoft.Json;
 using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
-using SpecFlowRestSharp.Utility;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {
     [Binding]
     public class DeleteBookingStepDefinitions:DefaultHooks
     {
-        private string _token;
-        private string _bookingId;
+        private string token;
+        private string bookingId;
 
         [Given(@"The user is authenticated")]
         public void GivenTheUserIsAuthenticated()
@@ -36,7 +35,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             ConvertToJObject();
 
-            _token = JObj.token;
+            token = JObj.token;
         }
 
         [When(@"The user creates a booking")]
@@ -72,7 +71,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             ConvertToJObject();
 
-            _bookingId = JObj.bookingid;
+            bookingId = JObj.bookingid;
         }
 
         [When(@"The user performs a delete booking request")]
@@ -82,11 +81,11 @@ namespace SpecFlowRestSharp.StepDefinitions
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" },
-                {"Cookie", "token="+_token }
+                {"Cookie", "token="+token }
             };
             var urlSegments = new Dictionary<string, string>()
             {
-                {"id", _bookingId}
+                {"id", bookingId}
             };
 
             var request = new DeleteRequestBuilder()
@@ -105,9 +104,6 @@ namespace SpecFlowRestSharp.StepDefinitions
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(201, (int)_response.StatusCode);
-                //Assert.AreEqual(202, (int)_response.StatusCode);
-                //Assert.AreEqual(400, (int)_response.StatusCode);
-                //Assert.AreEqual(500, (int)_response.StatusCode);
             });
         }
     }

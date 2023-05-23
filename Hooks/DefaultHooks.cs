@@ -13,9 +13,10 @@ namespace SpecFlowRestSharp.Hooks
         //I can make this class binding again, and remove the inheritance in stepdefinitions, but in that case I need to set IClient _client inside of the stepdefinition and perform initialization of the _client at the begining of each step and perofmr disposing at the end of each step, so I believe this is a better alternative.
         protected IClient _client;
         protected RestResponse _response;
+        protected string _curl;
         protected dynamic JObj;
         protected dynamic JArr;
-        protected string _curl;
+        
 
         [BeforeStep]
         public void BeforeStep()
@@ -43,6 +44,7 @@ namespace SpecFlowRestSharp.Hooks
                 throw new Exception($"Error executing the request: {ex.Message}\n{_curl}");
             }
         }
+
         public dynamic ConvertToJObject()
         {
             try
