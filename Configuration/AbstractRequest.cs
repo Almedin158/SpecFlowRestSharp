@@ -5,6 +5,7 @@ namespace SpecFlowRestSharp.Configuration
     public abstract class AbstractRequest
     {
         public abstract RestRequest Build();
+
         protected virtual void WithUrl(string url, RestRequest restRequest)
         {
             restRequest.Resource = url;

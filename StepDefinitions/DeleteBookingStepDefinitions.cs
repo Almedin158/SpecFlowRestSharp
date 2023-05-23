@@ -4,7 +4,6 @@ using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
 using SpecFlowRestSharp.Utility;
-using SpecFlowRestSharp.Configuration;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {
@@ -31,16 +30,15 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             var request = new PostRequestBuilder()
                 .WithUrl(url)
-            .WithHeaders(headers)
-                .WithJsonBody(JsonConvert.SerializeObject(body))
+                .WithHeaders(headers)
+                .WithObjectBody(body)
                 .Build();
 
             var _curl = CurlConverter.ConvertToCurl(request);
 
             try
             {
-                _response = _client.GetClient()
-                    .Execute(request);
+                _response = _client.GetClient().Execute(request);
             }
             catch (Exception ex)
             {
@@ -56,8 +54,6 @@ namespace SpecFlowRestSharp.StepDefinitions
             {
                 throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
             }
-
-            
         }
 
         [When(@"The user creates a booking")]
@@ -93,8 +89,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             try
             {
-                _response = _client.GetClient()
-                    .Execute(request);
+                _response = _client.GetClient().Execute(request);
             }
             catch (Exception ex)
             {
@@ -103,7 +98,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             try
             {
-                var jsonObj = DynamicConverter.ConvertToJObject(_response.Content);
+                dynamic jsonObj = DynamicConverter.ConvertToJObject(_response.Content);
                 _bookingId = jsonObj.bookingid;
             }
             catch 
@@ -129,15 +124,14 @@ namespace SpecFlowRestSharp.StepDefinitions
             var request = new DeleteRequestBuilder()
                 .WithUrl(url)
                 .WithHeaders(headers)
-            .WithUrlSegments(urlSegments)
+                .WithUrlSegments(urlSegments)
                 .Build();
 
             var _curl = CurlConverter.ConvertToCurl(request);
 
             try
             {
-                _response = _client.GetClient()
-                    .Execute(request);
+                _response = _client.GetClient().Execute(request);
             }
             catch
             {
@@ -151,9 +145,9 @@ namespace SpecFlowRestSharp.StepDefinitions
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(201, (int)_response.StatusCode);
-                Assert.AreEqual(202, (int)_response.StatusCode);
-                Assert.AreEqual(400, (int)_response.StatusCode);
-                Assert.AreEqual(500, (int)_response.StatusCode);
+                //Assert.AreEqual(202, (int)_response.StatusCode);
+                //Assert.AreEqual(400, (int)_response.StatusCode);
+                //Assert.AreEqual(500, (int)_response.StatusCode);
             });
         }
     }
