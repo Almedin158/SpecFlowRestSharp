@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using RestSharp;
 using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
@@ -10,7 +9,6 @@ namespace SpecFlowRestSharp.StepDefinitions
     [Binding]
     public class DeleteBookingStepDefinitions:DefaultHooks
     {
-        private RestResponse _response;
         private string _token;
         private string _bookingId;
 
@@ -31,29 +29,14 @@ namespace SpecFlowRestSharp.StepDefinitions
             var request = new PostRequestBuilder()
                 .WithUrl(url)
                 .WithHeaders(headers)
-                .WithObjectBody(body)
+                .WithJsonBody(JsonConvert.SerializeObject(body))
                 .Build();
 
-            var _curl = CurlConverter.ConvertToCurl(request);
+            Execute(request);
 
-            try
-            {
-                _response = _client.GetClient().Execute(request);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error executing the request: {ex.Message}\n{_curl}");
-            }
+            ConvertToJObject();
 
-            try
-            {
-                var jsonObj = DynamicConverter.ConvertToJObject(_response.Content);
-                _token = jsonObj.token;
-            }
-            catch
-            {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
-            }
+            _token = JObj.token;
         }
 
         [When(@"The user creates a booking")]
@@ -85,26 +68,11 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithJsonBody(JsonConvert.SerializeObject(body))
                 .Build();
 
-            var _curl = CurlConverter.ConvertToCurl(request);
+            Execute(request);
 
-            try
-            {
-                _response = _client.GetClient().Execute(request);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error executing the request: {ex.Message}");
-            }
+            ConvertToJObject();
 
-            try
-            {
-                dynamic jsonObj = DynamicConverter.ConvertToJObject(_response.Content);
-                _bookingId = jsonObj.bookingid;
-            }
-            catch 
-            {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
-            }
+            _bookingId = JObj.bookingid;
         }
 
         [When(@"The user performs a delete booking request")]
@@ -127,21 +95,13 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithUrlSegments(urlSegments)
                 .Build();
 
-            var _curl = CurlConverter.ConvertToCurl(request);
-
-            try
-            {
-                _response = _client.GetClient().Execute(request);
-            }
-            catch
-            {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
-            }
+            Execute(request);
         }
 
         [Then(@"The booking should be deleted")]
         public void ThenTheBookingShouldBeDeleted()
         {
+            //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
                 Assert.AreEqual(201, (int)_response.StatusCode);

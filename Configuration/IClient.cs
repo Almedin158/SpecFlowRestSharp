@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System.Security.Policy;
 
 namespace SpecFlowRestSharp.Configuration
 {

@@ -31,11 +31,11 @@ namespace SpecFlowRestSharp.APIRequests
             return this;
         }
 
-        public PostRequestBuilder WithObjectBody(object objectBody)
-        {
-            WithObjectBody(objectBody, _restRequest);
-            return this;
-        }
+        //public PostRequestBuilder WithObjectBody(object objectBody)
+        //{
+        //    WithObjectBody(objectBody, _restRequest);
+        //    return this;
+        //}
 
         public PostRequestBuilder WithJsonBody(string jsonBody)
         {
