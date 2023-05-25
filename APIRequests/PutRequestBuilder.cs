@@ -31,12 +31,6 @@ namespace SpecFlowRestSharp.APIRequests
             return this;
         }
 
-        public PutRequestBuilder WithObjectBody(object objectBody)
-        {
-            WithObjectBody(objectBody, _restRequest);
-            return this;
-        }
-
         public PutRequestBuilder WithJsonBody(string jsonBody)
         {
             WithJsonBody(jsonBody, _restRequest);

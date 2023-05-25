@@ -2,8 +2,6 @@ using Newtonsoft.Json;
 using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
-using System.Runtime.InteropServices;
-using System.ComponentModel.Design.Serialization;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {

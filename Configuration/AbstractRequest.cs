@@ -24,11 +24,6 @@ namespace SpecFlowRestSharp.Configuration
             }
         }
 
-        protected virtual void WithObjectBody(object objectBody, RestRequest restRequest)
-        {
-            restRequest.AddBody(objectBody);
-        }
-
         protected virtual void WithJsonBody(string jsonBody, RestRequest restRequest)
         {
             restRequest.AddJsonBody(jsonBody);
