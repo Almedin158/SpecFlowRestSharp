@@ -1,7 +1,9 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using SpecFlowRestSharp.Clients;
 using SpecFlowRestSharp.Configuration;
 using SpecFlowRestSharp.Utility;
+using System.Xml.Linq;
 
 namespace SpecFlowRestSharp.Hooks
 {
@@ -62,7 +64,35 @@ namespace SpecFlowRestSharp.Hooks
         {
             try
             {
-                JArr = DynamicConverter.ConvertToJObject(_response.Content);
+                JArr = DynamicConverter.ConvertToJArray(_response.Content);
+                return JArr;
+            }
+            catch
+            {
+                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+            }
+        }
+        public dynamic ConvertXMLToJObject()
+        {
+            try
+            {
+                XDocument xmlDoc = XDocument.Parse(_response.Content);
+                string jsonText = JsonConvert.SerializeXNode(xmlDoc);
+                JObj = DynamicConverter.ConvertToJObject(jsonText);
+                return JObj;
+            }
+            catch
+            {
+                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+            }
+        }
+        public dynamic ConvertXMLToJArray()
+        {
+            try
+            {
+                XDocument xmlDoc = XDocument.Parse(_response.Content);
+                string jsonText = JsonConvert.SerializeXNode(xmlDoc);
+                JArr = DynamicConverter.ConvertToJArray(jsonText);
                 return JArr;
             }
             catch

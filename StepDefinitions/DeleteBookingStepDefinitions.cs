@@ -2,6 +2,8 @@ using Newtonsoft.Json;
 using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
+using System.Runtime.InteropServices;
+using System.ComponentModel.Design.Serialization;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {
@@ -103,6 +105,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
+                //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
                 Assert.AreEqual(201, (int)_response.StatusCode);
             });
         }
