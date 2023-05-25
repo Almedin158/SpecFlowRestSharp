@@ -28,7 +28,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             var request = new PostRequestBuilder()
                 .WithUrl(url)
                 .WithHeaders(headers)
-                .WithJsonBody(JsonConvert.SerializeObject(body))
+                .WithBody(body)
                 .Build();
 
             Execute(request);
@@ -47,24 +47,27 @@ namespace SpecFlowRestSharp.StepDefinitions
                 {"Content-Type","application/json" },
                 {"Accept","application/json" }
             };
-            var body = new 
-            {
-                firstname = "MadeUp",
-                lastname = "AlsoMadeUp",
-                totalprice = 1508,
-                depositpaid = true,
-                bookingdates = new 
-                {
-                    checkin = DateTime.Now.ToString("yyyy'-'MM'-'dd"),
-                    checkout = DateTime.Now.ToString("yyyy'-'MM'-'dd")
-                },
-                additionalneeds = "Dorucak"
-            };
+
+            var body = @"{""firstname"":""MadeUp"",""lastname"":""AlsoMadeUp"",""totalprice"":1508,""depositpaid"":true,""bookingdates"":{""checkin"":""2023-05-25"",""checkout"":""2023-05-25""},""additionalneeds"":""Dorucak""}";
+
+            //var body = new 
+            //{
+            //    firstname = "MadeUp",
+            //    lastname = "AlsoMadeUp",
+            //    totalprice = 1508,
+            //    depositpaid = true,
+            //    bookingdates = new 
+            //    {
+            //        checkin = DateTime.Now.ToString("yyyy'-'MM'-'dd"),
+            //        checkout = DateTime.Now.ToString("yyyy'-'MM'-'dd")
+            //    },
+            //    additionalneeds = "Dorucak"
+            //};
 
             var request = new PostRequestBuilder()
                 .WithUrl(url)
                 .WithHeaders(headers)
-                .WithJsonBody(JsonConvert.SerializeObject(body))
+                .WithBody(body)
                 .Build();
 
             Execute(request);

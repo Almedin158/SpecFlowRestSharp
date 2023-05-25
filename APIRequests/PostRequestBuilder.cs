@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using RestSharp;
 using SpecFlowRestSharp.Configuration;
 
 namespace SpecFlowRestSharp.APIRequests
@@ -31,11 +32,19 @@ namespace SpecFlowRestSharp.APIRequests
             return this;
         }
 
-        public PostRequestBuilder WithJsonBody(string jsonBody)
+        public PostRequestBuilder WithBody(string body)
         {
-            WithJsonBody(jsonBody, _restRequest);
+            WithJsonBody(body, _restRequest);
             return this;
         }
+
+        public PostRequestBuilder WithBody(object body)
+        {
+            var stringBody = JsonConvert.SerializeObject(body);
+            WithJsonBody(stringBody, _restRequest);
+            return this;
+        }
+
 
         public PostRequestBuilder WithParameters(Dictionary<string, string> wwwForm)
         {
