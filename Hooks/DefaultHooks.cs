@@ -1,6 +1,12 @@
-﻿using RestSharp;
+﻿using NUnit.Framework;
+using RestSharp;
 using SpecFlowRestSharp.Clients;
 using SpecFlowRestSharp.Configuration;
+
+//Parallel exeuction works on fixture (feature) level, you can NOT parallelly execute multiple tests inside of the same feature file.
+[assembly: Parallelizable(ParallelScope.Fixtures)]
+//Limits the number of possible parallel executions
+[assembly: LevelOfParallelism(8)]
 
 namespace SpecFlowRestSharp.Hooks
 {
