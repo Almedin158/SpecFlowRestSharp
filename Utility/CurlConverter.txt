@@ -3,3 +3,6 @@ For www form urlencoded body
 
 {"Content-Type","application/json" }
 For json body
+
+{"Content-Type","multipart/form-data" }
+For form-data

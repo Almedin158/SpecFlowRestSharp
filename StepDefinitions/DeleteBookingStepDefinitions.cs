@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
@@ -6,10 +5,16 @@ using NUnit.Framework;
 namespace SpecFlowRestSharp.StepDefinitions
 {
     [Binding]
-    public class DeleteBookingStepDefinitions:DefaultHooks
+    public class DeleteBookingStepDefinitions
     {
         private string token;
         private string bookingId;
+        DefaultHooks hook;
+
+        public DeleteBookingStepDefinitions(DefaultHooks hook)
+        {
+            this.hook = hook;   
+        }
 
         [Given(@"The user is authenticated")]
         public void GivenTheUserIsAuthenticated()
@@ -22,8 +27,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             var body = new
             {
                 username = "admin",
-                password = "password123",
-                broj = 123123123
+                password = "password123"
             };
 
             var request = new PostRequestBuilder()
@@ -32,11 +36,11 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithBody(body)
                 .Build();
 
-            Execute(request);
+            hook.Execute(request);
 
-            ConvertToJObject();
+            hook.ConvertToJObject();
 
-            token = JObj.token;
+            token = hook.JObj.token;
         }
 
         [When(@"The user creates a booking")]
@@ -51,31 +55,17 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             var body = @"{""firstname"":""MadeUp"",""lastname"":""AlsoMadeUp"",""totalprice"":1508,""depositpaid"":true,""bookingdates"":{""checkin"":""2023-05-25"",""checkout"":""2023-05-25""},""additionalneeds"":""Dorucak""}";
 
-            //var body = new 
-            //{
-            //    firstname = "MadeUp",
-            //    lastname = "AlsoMadeUp",
-            //    totalprice = 1508,
-            //    depositpaid = true,
-            //    bookingdates = new 
-            //    {
-            //        checkin = DateTime.Now.ToString("yyyy'-'MM'-'dd"),
-            //        checkout = DateTime.Now.ToString("yyyy'-'MM'-'dd")
-            //    },
-            //    additionalneeds = "Dorucak"
-            //};
-
             var request = new PostRequestBuilder()
                 .WithUrl(url)
                 .WithHeaders(headers)
                 .WithBody(body)
                 .Build();
 
-            Execute(request);
+            hook.Execute(request);
 
-            ConvertToJObject();
+            hook.ConvertToJObject();
 
-            bookingId = JObj.bookingid;
+            bookingId = hook.JObj.bookingid;
         }
 
         [When(@"The user performs a delete booking request")]
@@ -98,7 +88,7 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithUrlSegments(urlSegments)
                 .Build();
 
-            Execute(request);
+            hook.Execute(request);
         }
 
         [Then(@"The booking should be deleted")]
@@ -108,7 +98,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             Assert.Multiple(() =>
             {
                 //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
-                Assert.AreEqual(201, (int)_response.StatusCode);
+                Assert.AreEqual(201, (int)hook._response.StatusCode);
             });
         }
     }
