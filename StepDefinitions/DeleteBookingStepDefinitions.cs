@@ -22,7 +22,8 @@ namespace SpecFlowRestSharp.StepDefinitions
             var body = new
             {
                 username = "admin",
-                password = "password123"
+                password = "password123",
+                broj = 123123123
             };
 
             var request = new PostRequestBuilder()

@@ -1,0 +1,5 @@
+﻿{"Content-Type","application/x-www-form-urlencoded" }
+For www form urlencoded body
+
+{"Content-Type","application/json" }
+For json body
