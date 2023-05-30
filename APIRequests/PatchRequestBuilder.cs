@@ -4,6 +4,7 @@ using SpecFlowRestSharp.Configuration;
 
 namespace SpecFlowRestSharp.APIRequests
 {
+    //Check the AbstractRequest class for method explainations
     public class PatchRequestBuilder : AbstractRequest
     {
         RestRequest _restRequest;

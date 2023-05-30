@@ -3,6 +3,7 @@ using SpecFlowRestSharp.Configuration;
 
 namespace SpecFlowRestSharp.APIRequests
 {
+    //Check the AbstractRequest class for method explainations
     public class DeleteRequestBuilder : AbstractRequest
     {
         private readonly RestRequest _restRequest;

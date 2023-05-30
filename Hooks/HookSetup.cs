@@ -13,6 +13,13 @@ namespace SpecFlowRestSharp.Hooks
         public dynamic JObj;
         public dynamic JArr;
 
+        /// <summary>
+        /// Performs the request
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public RestResponse Execute(IClient client, RestRequest request)
         {
             _curl = CurlConverter.ConvertToCurl(request);
@@ -28,6 +35,11 @@ namespace SpecFlowRestSharp.Hooks
             }
         }
 
+        /// <summary>
+        /// Converts the RestResponse to a dynamic object
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public dynamic ConvertToJObject()
         {
             try
@@ -41,6 +53,11 @@ namespace SpecFlowRestSharp.Hooks
             }
         }
 
+        /// <summary>
+        /// Converts the RestResponse to a dynamic array
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public dynamic ConvertToJArray()
         {
             try
@@ -53,6 +70,12 @@ namespace SpecFlowRestSharp.Hooks
                 throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
             }
         }
+
+        /// <summary>
+        /// Converts XMl RestResponse to a dynamic object
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public dynamic ConvertXMLToJObject()
         {
             try
@@ -67,6 +90,12 @@ namespace SpecFlowRestSharp.Hooks
                 throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
             }
         }
+
+        /// <summary>
+        /// Converts XML RestResponse to a dynamic array
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public dynamic ConvertXMLToJArray()
         {
             try
