@@ -1,6 +1,7 @@
 using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
+using SpecFlowRestSharp.Utility;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {
@@ -9,11 +10,13 @@ namespace SpecFlowRestSharp.StepDefinitions
     {
         private string token;
         private string bookingId;
+        private dynamic json;
         DefaultHooks hook;
 
         public DeleteBookingStepDefinitions(DefaultHooks hook)
         {
-            this.hook = hook;   
+            this.hook = hook;
+            json = JsonProcessor.ReadJson(Directory.GetCurrentDirectory()+"/DeleteBooking.json");
         }
 
         [Given(@"The user is authenticated")]
@@ -26,8 +29,8 @@ namespace SpecFlowRestSharp.StepDefinitions
             };
             var body = new
             {
-                username = "admin",
-                password = "password123"
+                username = json.username,
+                password = json.password
             };
 
             var request = new PostRequestBuilder()
@@ -105,36 +108,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //Ignore this, I used it for parallel exeucution of tests.
+        //Ignore this, I used it for testing parallel exeucution of tests.
 
         [Then(@"The booking should be deleted2")]
         public void ThenTheBookingShouldBeDeleted2()
