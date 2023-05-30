@@ -27,6 +27,12 @@ namespace SpecFlowRestSharp.APIRequests
             return this;
         }
 
+        public PutRequestBuilder WithEndpoint(string endpoint)
+        {
+            WithEndpoint(endpoint, _restRequest);
+            return this;
+        }
+
         public PutRequestBuilder WithHeaders(Dictionary<string, string> headers)
         {
             WithHeaders(headers, _restRequest);

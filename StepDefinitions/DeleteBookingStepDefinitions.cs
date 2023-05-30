@@ -16,13 +16,15 @@ namespace SpecFlowRestSharp.StepDefinitions
         public DeleteBookingStepDefinitions(DefaultHooks hook)
         {
             this.hook = hook;
+            //Configuration is stored inside of the json dynamic object
             json = JsonProcessor.ReadJson(Directory.GetCurrentDirectory()+"/DeleteBooking.json");
         }
 
         [Given(@"The user is authenticated")]
         public void GivenTheUserIsAuthenticated()
         {
-            string url = "https://restful-booker.herokuapp.com/auth";
+            string url = json.url;
+            string endpoint = json.authorization;
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" }
@@ -33,8 +35,10 @@ namespace SpecFlowRestSharp.StepDefinitions
                 password = json.password
             };
 
+            //Create a request using the request builder method
             var request = new PostRequestBuilder()
                 .WithUrl(url)
+                .WithEndpoint(endpoint)
                 .WithHeaders(headers)
                 .WithBody(body)
                 .Build();
@@ -49,7 +53,8 @@ namespace SpecFlowRestSharp.StepDefinitions
         [When(@"The user creates a booking")]
         public void WhenTheUserCreatesABooking()
         {
-            string url = "https://restful-booker.herokuapp.com/booking/";
+            string url = json.url;
+            string endpoint = json.createBooking;
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" },
@@ -60,6 +65,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             var request = new PostRequestBuilder()
                 .WithUrl(url)
+                .WithEndpoint(endpoint)
                 .WithHeaders(headers)
                 .WithBody(body)
                 .Build();
@@ -74,7 +80,8 @@ namespace SpecFlowRestSharp.StepDefinitions
         [When(@"The user performs a delete booking request")]
         public void WhenTheUserPerformsADeleteBookingRequest()
         {
-            string url = "https://restful-booker.herokuapp.com/booking/{id}";
+            string url = json.url;
+            string endpoint = json.deleteBooking;
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" },
@@ -87,6 +94,7 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             var request = new DeleteRequestBuilder()
                 .WithUrl(url)
+                .WithEndpoint(endpoint)
                 .WithHeaders(headers)
                 .WithUrlSegments(urlSegments)
                 .Build();
