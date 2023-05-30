@@ -17,7 +17,7 @@ namespace SpecFlowRestSharp.StepDefinitions
         {
             this.hook = hook;
             //Configuration is stored inside of the json dynamic object
-            json = JsonProcessor.ReadJson(Directory.GetCurrentDirectory()+"/DeleteBooking.json");
+            json = JsonProcessor.ReadJson("../../../StepDefinitions/DeleteBooking.json");
         }
 
         [Given(@"The user is authenticated")]

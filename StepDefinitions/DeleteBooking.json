@@ -1,0 +1,8 @@
+{
+    "url":"https://restful-booker.herokuapp.com/",
+    "authorization":"auth",
+    "createBooking": "booking",
+    "deleteBooking": "booking/{id}",
+    "username": "admin",
+    "password": "password123"
+}
