@@ -33,7 +33,7 @@ The test steps follow a general structure:
 2. Following the builder pattern create a new RestRequest (DeleteRequestBuilder, GetRequestBuilder etc.), using the .With methods add the required parameters to the request and using .Build() return the RestRequest.
 3. Perform the DefaultHook.Execute() method by passing the request.
 
-I know it seems as code reusability could have been implemented better in the "DeleteBookingStepDefinitions.cs" file, but since the headers, body etc.. parameters differ in each request, I found this to be the best solution.
+It seems as code reusability could have been implemented better in the "DeleteBookingStepDefinitions.cs" file, but since the headers, body etc.. parameters differ in each request, I found this to be the best solution.
 
 To access the response in the form of a dynamic object, perform the DefaultHook.ConvertToJObject or DefaultHook.ConvertToJArray function depending if the response is an object or array. (Same goes for xml responses via the DefaultHook.ConvertXMLToJObject and DefaultHook.ConvertXMLToJArray functions)
 
@@ -42,4 +42,4 @@ Dynamic objects are accessed using the "JObj" parameter and dynamic arrays are a
 In the "CurlConverter.cs" file, the ConvertToCurl() method generates a cURL request based on the RestRequest during the Execute() method, this request works with raw JSON, form-data and xxx-form-urlencoded request bodies. In case an error happens during request execution and response conversion an error message is thrown containing the cUrl request (which can then be pasted inside of Command Prompt/Postman or similar tool to easily reproduce the issue).
 
 
-//DeleteBooking.json file should be .gitignored or hidden, I left it here so you can run the test.
+DeleteBooking.json file should be .gitignored or hidden, I left it here so you can run the test.
