@@ -108,15 +108,20 @@ namespace SpecFlowRestSharp.StepDefinitions
 
 
 
+
+
+
+
+
+
+
         //Ignore this, I used it for testing parallel exeucution of tests.
 
         [Then(@"The booking should be deleted2")]
         public void ThenTheBookingShouldBeDeleted2()
         {
-            //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
-                //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
                 Assert.AreEqual(200, (int)hook._response.StatusCode);
             });
         }
@@ -124,10 +129,8 @@ namespace SpecFlowRestSharp.StepDefinitions
         [Then(@"The booking should be deleted3")]
         public void ThenTheBookingShouldBeDeleted3()
         {
-            //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
-                //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
                 Assert.AreEqual(304, (int)hook._response.StatusCode);
             });
         }
@@ -135,10 +138,8 @@ namespace SpecFlowRestSharp.StepDefinitions
         [Then(@"The booking should be deleted4")]
         public void ThenTheBookingShouldBeDeleted4()
         {
-            //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
-                //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
                 Assert.AreEqual(100, (int)hook._response.StatusCode);
             });
         }
@@ -146,10 +147,8 @@ namespace SpecFlowRestSharp.StepDefinitions
         [Then(@"The booking should be deleted5")]
         public void ThenTheBookingShouldBeDeleted5()
         {
-            //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
-                //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
                 Assert.AreEqual(400, (int)hook._response.StatusCode);
             });
         }
@@ -157,10 +156,8 @@ namespace SpecFlowRestSharp.StepDefinitions
         [Then(@"The booking should be deleted6")]
         public void ThenTheBookingShouldBeDeleted6()
         {
-            //In case I want to assert something from the dynamic object, I need to access it via JObj or JArr depending on the object type.
             Assert.Multiple(() =>
             {
-                //Yes, I know it this assertion does not make sense for a delete request, but, since the API is "bugged", I need to set it to 201 so I can check out the results when the test passes.
                 Assert.AreEqual(500, (int)hook._response.StatusCode);
             });
         }
