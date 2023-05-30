@@ -40,3 +40,6 @@ To access the response in the form of a dynamic object, perform the DefaultHook.
 Dynamic objects are accessed using the "JObj" parameter and dynamic arrays are accessed using the "JArr" parameter found in the HookSetup class (Which are also accessable via the DefaultClient in the StepDefinitions).
 
 In the "CurlConverter.cs" file, the ConvertToCurl() method generates a cURL request based on the RestRequest during the Execute() method, this request works with raw JSON, form-data and xxx-form-urlencoded request bodies. In case an error happens during request execution and response conversion an error message is thrown containing the cUrl request (which can then be pasted inside of Command Prompt/Postman or similar tool to easily reproduce the issue).
+
+
+//DeleteBooking.json file should be .gitignored or hidden, I left it here so you can run the test.
