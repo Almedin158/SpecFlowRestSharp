@@ -43,7 +43,7 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithBody(body)
                 .Build();
 
-            hook.Execute(request);
+            hook.Execute(request, 600);
 
             hook.ConvertToJObject();
 

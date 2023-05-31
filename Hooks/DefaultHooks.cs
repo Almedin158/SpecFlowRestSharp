@@ -36,12 +36,13 @@ namespace SpecFlowRestSharp.Hooks
         }
 
         /// <summary>
-        /// Performs the request
+        /// Performs the request, optional parameter is cancellation token timer in miliseconds after the timer expires the request gets cancelled
         /// </summary>
         /// <param name="request"></param>
-        public void Execute(RestRequest request)
+        /// <param name="cancellationTokenMiliseconds"></param>
+        public void Execute(RestRequest request, int cancellationTokenMiliseconds=0)
         {
-            Execute(_client, request);
+            Execute(_client, request, cancellationTokenMiliseconds);
         }
     }
 }

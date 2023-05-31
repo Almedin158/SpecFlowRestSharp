@@ -1,0 +1,4 @@
+﻿{
+  "CancellationToken": true,
+  "CancellationTokenTimerInMiliseconds": "200" 
+}
