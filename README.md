@@ -37,9 +37,13 @@ It seems as code reusability could have been implemented better in the "DeleteBo
 
 To access the response in the form of a dynamic object, perform the DefaultHook.ConvertToJObject or DefaultHook.ConvertToJArray function depending if the response is an object or array. (Same goes for xml responses via the DefaultHook.ConvertXMLToJObject and DefaultHook.ConvertXMLToJArray functions)
 
-Dynamic objects are accessed using the "JObj" parameter and dynamic arrays are accessed using the "JArr" parameter found in the HookSetup class (Which are also accessable via the DefaultClient in the StepDefinitions).
-
 In the "CurlConverter.cs" file, the ConvertToCurl() method generates a cURL request based on the RestRequest during the Execute() method, this request works with raw JSON, form-data and xxx-form-urlencoded request bodies. In case an error happens during request execution and response conversion an error message is thrown containing the cUrl request (which can then be pasted inside of Command Prompt/Postman or similar tool to easily reproduce the issue).
+
+Reporter not implemented, in a pipeline if the test fails an error message will be thrown which contains the cURL request, so the issue is easily reproducable.
 
 
 DeleteBooking.json file should be .gitignored or hidden, I left it here so you can run the test.
+
+
+31.05.2023.
+Implemented cancellation token using the CancellationToken.json configuration file for the global level in the "HookSetup.cs" Execute() method, can be overriden by passing an int value (miliseconds) into the Execute method inside of test steps.

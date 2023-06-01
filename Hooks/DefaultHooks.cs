@@ -11,7 +11,7 @@ using SpecFlowRestSharp.Configuration;
 namespace SpecFlowRestSharp.Hooks
 {
     [Binding]
-    public class DefaultHooks:HookSetup
+    public class DefaultHooks : HookSetup
     {
         // For additional details on SpecFlow hooks see http://go.specflow.org/doc-hooks
         // I can make this class binding again, and remove the inheritance in stepdefinitions, but in that case I need to set IClient _client inside of the stepdefinition and perform initialization of the _client at the begining of each step and perofmr disposing at the end of each step, so I believe this is a better alternative.
@@ -40,7 +40,7 @@ namespace SpecFlowRestSharp.Hooks
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationTokenMiliseconds"></param>
-        public void Execute(RestRequest request, int cancellationTokenMiliseconds=0)
+        public void Execute(RestRequest request, int cancellationTokenMiliseconds = 0)
         {
             Execute(_client, request, cancellationTokenMiliseconds);
         }

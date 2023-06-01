@@ -77,7 +77,7 @@ namespace SpecFlowRestSharp.Utility
                 }
             }
 
-            return "";
+            return "application/json";
         }
     }
 }

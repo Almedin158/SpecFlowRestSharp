@@ -2,6 +2,7 @@ using SpecFlowRestSharp.APIRequests;
 using SpecFlowRestSharp.Hooks;
 using NUnit.Framework;
 using SpecFlowRestSharp.Utility;
+using SpecFlowRestSharp.Models;
 
 namespace SpecFlowRestSharp.StepDefinitions
 {
@@ -23,8 +24,20 @@ namespace SpecFlowRestSharp.StepDefinitions
         [Given(@"The user is authenticated")]
         public void GivenTheUserIsAuthenticated()
         {
+            //string url = "http://restapi.adequateshop.com/api/Traveler";
+
+            //var request = new GetRequestBuilder()
+            //    .WithUrl(url)
+            //    .Build();
+
+            //hook.Execute(request);
+
+            //var obj = hook.ConvertToObject<TravelerinformationResponse>();
+
+            //var a = obj.TotalPages;
+
             string url = json.url;
-            string endpoint = json.authorization;
+            string endpoint = json.authorization+"afdadfasdf";
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" }
@@ -43,11 +56,11 @@ namespace SpecFlowRestSharp.StepDefinitions
                 .WithBody(body)
                 .Build();
 
-            hook.Execute(request, 600);
+            hook.Execute(request);
 
-            hook.ConvertToJObject();
+            var obj = hook.ConvertToObject<TokenResponse>();
 
-            token = hook.JObj.token;
+            token = obj.token;
         }
 
         [When(@"The user creates a booking")]
@@ -72,9 +85,9 @@ namespace SpecFlowRestSharp.StepDefinitions
 
             hook.Execute(request);
 
-            hook.ConvertToJObject();
+            var jObj = hook.ConvertToDynamicObject();
 
-            bookingId = hook.JObj.bookingid;
+            bookingId = jObj.bookingid;
         }
 
         [When(@"The user performs a delete booking request")]

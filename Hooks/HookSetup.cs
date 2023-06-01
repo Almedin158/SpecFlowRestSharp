@@ -3,6 +3,7 @@ using RestSharp;
 using SpecFlowRestSharp.Configuration;
 using SpecFlowRestSharp.Utility;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace SpecFlowRestSharp.Hooks
 {
@@ -10,8 +11,6 @@ namespace SpecFlowRestSharp.Hooks
     {
         public RestResponse _response;
         protected string _curl;
-        public dynamic JObj;
-        public dynamic JArr;
 
         /// <summary>
         /// Performs the request, cancels the request if the cancellation token timer expires
@@ -20,7 +19,7 @@ namespace SpecFlowRestSharp.Hooks
         /// <param name="request"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public RestResponse Execute(IClient client, RestRequest request, int cancellationTokenMiliseconds=0)
+        public RestResponse Execute(IClient client, RestRequest request, int cancellationTokenMiliseconds = 0)
         {
             _curl = CurlConverter.ConvertToCurl(request);
 
@@ -70,74 +69,141 @@ namespace SpecFlowRestSharp.Hooks
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public dynamic ConvertToJObject()
+        public dynamic ConvertToDynamicObject()
         {
-            try
+            var a = _response.ContentType.ToLower();
+            if (_response.ContentType.ToLower().Contains("xml"))
             {
-                JObj = DynamicConverter.ConvertToJObject(_response.Content);
-                return JObj;
+                try
+                {
+                    XDocument xmlDoc = XDocument.Parse(_response.Content);
+                    string jsonText = JsonConvert.SerializeXNode(xmlDoc);
+                    var JObj = DynamicConverter.ConvertToJObject(jsonText);
+                    return JObj;
+                }
+                catch
+                {
+                    throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                }
             }
-            catch
+            else
             {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                try
+                {
+                    var JObj = DynamicConverter.ConvertToJObject(_response.Content);
+                    return JObj;
+                }
+                catch
+                {
+                    throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                }
             }
         }
 
         /// <summary>
-        /// Converts the RestResponse to a dynamic array
+        /// Converts the RestResponse to a dynamic list
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public dynamic ConvertToJArray()
+        public dynamic ConvertToDynamicList()
         {
-            try
+            if (_response.ContentType.ToLower().Contains("xml"))
             {
-                JArr = DynamicConverter.ConvertToJArray(_response.Content);
-                return JArr;
+                try
+                {
+                    XDocument xmlDoc = XDocument.Parse(_response.Content);
+                    string jsonText = JsonConvert.SerializeXNode(xmlDoc);
+                    var JArr = DynamicConverter.ConvertToJArray(jsonText);
+                    return JArr;
+                }
+                catch
+                {
+                    throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                }
             }
-            catch
+            else
             {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                try
+                {
+                    var JArr = DynamicConverter.ConvertToJArray(_response.Content);
+                    return JArr;
+                }
+                catch
+                {
+                    throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                }
             }
         }
 
         /// <summary>
-        /// Converts XMl RestResponse to a dynamic object
+        /// Converts the RestResponse to strongly typed object
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public dynamic ConvertXMLToJObject()
+        public T ConvertToObject<T>()
         {
+            //If it is an XML response, converts it into a strongly typed object
+            if (_response.ContentType.ToLower().Contains("xml"))
+            {
+                try
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(T));
+                    using (TextReader reader = new StringReader(_response.Content))
+                    {
+                        T obj = (T)serializer.Deserialize(reader);
+                        return obj;
+                    }
+                }
+                catch
+                {
+                    throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                }
+            }
+
             try
             {
-                XDocument xmlDoc = XDocument.Parse(_response.Content);
-                string jsonText = JsonConvert.SerializeXNode(xmlDoc);
-                JObj = DynamicConverter.ConvertToJObject(jsonText);
-                return JObj;
+                return JsonConvert.DeserializeObject<T>(_response.Content);
             }
             catch
             {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                throw new Exception($"Failed to convert response to {typeof(T).Name}\nStatus message: {_response.Content}\n{_curl}");
             }
         }
 
         /// <summary>
-        /// Converts XML RestResponse to a dynamic array
+        /// Converts the RestResponse to strongly typed list
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public dynamic ConvertXMLToJArray()
+        public List<T> ConvertToList<T>()
         {
+            //If it is an XML response, converts it into a strongly typed list
+            if (_response.ContentType.ToLower().Contains("xml"))
+            {
+                try
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+                    using (TextReader reader = new StringReader(_response.Content))
+                    {
+                        List<T> objList = (List<T>)serializer.Deserialize(reader);
+                        return objList;
+                    }
+                }
+                catch
+                {
+                    throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                }
+            }
+
             try
             {
-                XDocument xmlDoc = XDocument.Parse(_response.Content);
-                string jsonText = JsonConvert.SerializeXNode(xmlDoc);
-                JArr = DynamicConverter.ConvertToJArray(jsonText);
-                return JArr;
+                return JsonConvert.DeserializeObject<List<T>>(_response.Content);
             }
             catch
             {
-                throw new Exception($"Response body is not available\n Status message: {_response.Content}\n{_curl}");
+                throw new Exception($"Failed to convert response to List<{typeof(T).Name}>\nStatus message: {_response.Content}\n{_curl}");
             }
         }
     }

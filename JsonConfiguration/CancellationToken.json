@@ -1,4 +1,4 @@
 ﻿{
-  "CancellationToken": true,
-  "CancellationTokenTimerInMiliseconds": "10000" 
+  "CancellationToken": true, //Disables or enables global cancellation token timeout
+  "CancellationTokenTimerInMiliseconds": "10000" //Global cancellation token timeout in miliseconds
 }
