@@ -37,7 +37,7 @@ namespace SpecFlowRestSharp.StepDefinitions
             //var a = obj.TotalPages;
 
             string url = json.url;
-            string endpoint = json.authorization+"afdadfasdf";
+            string endpoint = json.authorization;
             var headers = new Dictionary<string, string>()
             {
                 {"Content-Type","application/json" }
