@@ -25,22 +25,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'Run dotnet test'
   inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*Test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/*.trx'
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-    mergeTestResults: true
+    command: test
+    projects: '**/*.csproj'
+    arguments: '--logger trx'
+    publishTestResults: true
     testRunTitle: 'Test Results'

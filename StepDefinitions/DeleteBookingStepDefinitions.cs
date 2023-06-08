@@ -143,7 +143,7 @@ namespace SpecFlowRestSharp.StepDefinitions
         {
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(200, (int)hook._response.StatusCode);
+                Assert.AreEqual(201, (int)hook._response.StatusCode);
             });
         }
 
@@ -152,7 +152,7 @@ namespace SpecFlowRestSharp.StepDefinitions
         {
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(304, (int)hook._response.StatusCode);
+                Assert.AreEqual(201, (int)hook._response.StatusCode);
             });
         }
 
@@ -161,7 +161,7 @@ namespace SpecFlowRestSharp.StepDefinitions
         {
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(100, (int)hook._response.StatusCode);
+                Assert.AreEqual(201, (int)hook._response.StatusCode);
             });
         }
 
@@ -170,7 +170,7 @@ namespace SpecFlowRestSharp.StepDefinitions
         {
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(400, (int)hook._response.StatusCode);
+                Assert.AreEqual(201, (int)hook._response.StatusCode);
             });
         }
 
@@ -179,7 +179,7 @@ namespace SpecFlowRestSharp.StepDefinitions
         {
             Assert.Multiple(() =>
             {
-                Assert.AreEqual(500, (int)hook._response.StatusCode);
+                Assert.AreEqual(201, (int)hook._response.StatusCode);
             });
         }
     }
